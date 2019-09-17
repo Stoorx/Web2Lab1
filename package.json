@@ -1,0 +1,22 @@
+{
+  "name": "weather-lab",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "grunt dev",
+    "serve": "grunt serve"
+  },
+  "author": "Stoorx",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "grunt": "^1.0.4",
+    "grunt-babel": "^8.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-contrib-connect": "^2.1.0",
+    "grunt-html-build": "^0.7.1"
+  }
+}
