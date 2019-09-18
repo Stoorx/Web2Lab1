@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development",
-    "a": "webpack"
+    "serve": "webpack-dev-server --mode development"
   },
   "author": "Stoorx",
   "license": "ISC",

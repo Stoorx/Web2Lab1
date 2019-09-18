@@ -1,5 +1,4 @@
-const WebpackHtmlPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     context: __dirname,
@@ -52,5 +51,11 @@ module.exports = {
             }
         ]
     },
-    devServer: {}
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        compress: true,
+        port: 8080,
+        hot: true
+
+    }
 };
