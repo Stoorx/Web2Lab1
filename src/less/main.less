@@ -1,0 +1,52 @@
+@import "templates/SearchPage.less";
+@import "templates/WaitPage.less";
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: #1a1a30;
+  height: 100vh;
+  width: 100%;
+  margin: 0;
+}
+
+.background {
+  background: url('../img/background.jpg') center;
+  background-size: cover;
+  position: absolute;
+  height: 100%;
+  z-index: 0;
+  width: 100%;
+}
+
+.main-view {
+  z-index: 10;
+  position: relative;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeinmx() {
+  animation: fadein 1s ease-in;
+}
+
+.dissolve {
+  .dissolvemx();
+}
+
+.dissolvemx() {
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: opacity 1000ms ease-out, transform 2500ms ease;
+}

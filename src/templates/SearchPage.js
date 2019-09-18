@@ -1,4 +1,5 @@
 const hs = require('hyperscript');
+import {appController} from './../index.js';
 
 export class SearchPage extends HTMLElement {
     constructor() {
@@ -7,10 +8,20 @@ export class SearchPage extends HTMLElement {
 
         super();
         this.appendChild(
-            hs('div.search-page',
+            this.root = hs('div.search-page-content',
                 this.cityName = hs('input.cityName', {type: 'text', placeholder: "Type a city name"}),
-                this.submitButton = hs('button.submit', "Go")
+                this.submitButton = hs('button.submit', {
+                    onclick: () => {
+                        this.classList.add('dissolve');
+                        appController.processSearch(this.cityName.value);
+                        setTimeout(() => this.remove(), 3000);
+                    }
+                }, "Go")
             )
         );
+    }
+
+    remove() {
+        this.parentElement.removeChild(this);
     }
 }
