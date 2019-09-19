@@ -1,0 +1,26 @@
+blowup-typewriter {
+  .fadeinmx();
+  position: absolute;
+  color: white;
+  font-family: monospace;
+  font-size: 16pt;
+  text-wrap: none;
+  word-wrap: unset;
+  opacity: 1;
+}
+
+.word-container {
+  overflow: hidden;
+  text-wrap: none;
+  word-wrap: unset;
+}
+
+.tw-blowup {
+  transition: transform 30000ms ease;
+  transform: translateY(-100vh);
+}
+
+.tw-dissolve {
+  opacity: 0;
+  transition: opacity 5000ms ease-out;
+}
