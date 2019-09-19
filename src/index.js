@@ -1,6 +1,7 @@
 import {WaitPage} from "./templates/WaitPage";
+import {SearchPage} from "./templates/SearchPage";
+import {ResultsPage} from "./templates/ResultsPage";
 
-const {SearchPage} = require('./templates/SearchPage.js');
 require('./less/main.less');
 require('./img/background.jpg');
 
@@ -14,17 +15,28 @@ export const appController = new (class AppController {
 
     processSearch(city) {
         const spinner = new WaitPage();
+        this.currentPage.dissolveAndRemove();
         this._mainView.appendChild(spinner);
         this.currentPage = spinner;
         fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apikey, {
             mode: 'cors'
         }).then(
             (response) => {
-                spinner.dissolveAndRemove();
+                if (response.ok) {
+                    response.json().then(
+                        (json) => {
+                            const resPage = new ResultsPage(json);
+                            this.currentPage.dissolveAndRemove();
+                            this._mainView.appendChild(resPage);
+                        }
+                    );
+                } else {
+                    spinner.dissolveAndRemove(); // TODO: Error handling
+                }
             },
             (e) => {
                 console.log(e);
             }
-        ).catch((e) => console.log(e));
+        );
     }
 })();
