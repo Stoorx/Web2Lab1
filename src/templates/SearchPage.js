@@ -2,6 +2,7 @@ const hs = require('hyperscript');
 import {appController} from './../index.js';
 import {BlowupTypewriter} from "./BlowupTypewriter.js";
 import cities from 'cities.json';
+import {PopupMessage} from "./PopupMessage";
 
 export class SearchPage extends HTMLElement {
     constructor() {
@@ -15,19 +16,31 @@ export class SearchPage extends HTMLElement {
         this.appendChild(
             this.plane = hs('div.search-page-first-plane',
                 this.content = hs('div.search-page-content',
-                    this.cityName = hs('input.cityName', {type: 'text', placeholder: "Type a city name"}),
+                    this.cityName = hs('input.cityName', {
+                        type: 'text',
+                        placeholder: "Type a city name",
+                        onkeyup: (event) => {
+                            if (event.key === "Enter") {
+                                this.submitButton.click();
+                            }
+                        }
+                    }),
                     this.submitButton = hs('button.submit', {
                         onclick: () => {
-                            this.classList.add('dissolve');
-                            this.content.classList.add('blowup');
-                            appController.processSearch(this.cityName.value);
-                            setTimeout(() => this.remove(), 3000);
+                            if (this.cityName.value.match(/^[A-Za-z\.-]+$/i)) {
+                                this.classList.add('dissolve');
+                                this.content.classList.add('blowup');
+                                appController.processSearch(this.cityName.value);
+                                setTimeout(() => this.remove(), 3000);
+                            } else {
+                                this.cityName.classList.add('wrong');
+                                setTimeout(() => this.cityName.classList.remove('wrong'), 3000);
+                            }
                         }
                     }, "Go")
                 )
             )
         );
-        //this.typeWriter.appendChild(new BlowupTypewriter('testtesteetet', {x: 50, y: 500}));
 
         this.typewriterSpawnInterval = setInterval(() => {
             let city = cities[(Math.random() * cities.length) | 0];
@@ -35,7 +48,7 @@ export class SearchPage extends HTMLElement {
                 x: Math.random() * window.innerWidth,
                 y: Math.random() * window.innerHeight
             }));
-        }, 768);
+        }, 512);
     }
 
     remove() {
