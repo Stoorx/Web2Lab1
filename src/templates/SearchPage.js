@@ -16,7 +16,7 @@ export class SearchPage extends HTMLElement {
             this.plane = hs('div.search-page-first-plane',
                 this.content = hs('div.search-page-content',
                     hs('a.logo', {href: '/index.html'}, 'Cloudy'),
-                    hs('div.controls-encapsulation',
+                    this.controls = hs('div.controls-encapsulation',
                         this.cityName = hs('input.cityName', {
                             type: 'text',
                             placeholder: "Type a city name",
@@ -31,8 +31,8 @@ export class SearchPage extends HTMLElement {
                                 if (this.cityName.value.match(/^[^+*/=_&?^:;'"|\\%$#@!\[\]{}`~.,<>№\s0-9]+$/i)) {
                                     appController.processSearch(this.cityName.value);
                                 } else {
-                                    this.cityName.classList.add('wrong');
-                                    setTimeout(() => this.cityName.classList.remove('wrong'), 3000);
+                                    this.controls.classList.add('wrong');
+                                    setTimeout(() => this.controls.classList.remove('wrong'), 3000);
                                 }
                             }
                         }, "Go")
