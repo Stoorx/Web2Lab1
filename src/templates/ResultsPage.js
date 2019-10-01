@@ -26,6 +26,14 @@ export class ResultsPage extends HTMLElement {
                             hs('div.low-temp', Math.round(weatherJson.main.temp_min - 273.15) + "°")
                         ),
                     ),
+                    hs('div.humidity',
+                        hs('div.par_title', "Humidity"),
+                        hs('div.par_val', weatherJson.main.humidity + "%")
+                    ),
+                    hs('div.pressure',
+                        hs('div.par_title', "Pressure"),
+                        hs('div.par_val', weatherJson.main.pressure + " hPa")
+                    )
                     // hs('div.daylight',
                     //     hs('div.sunrise',
                     //         ResultsPage.__toDate(weatherJson.sys.sunrise)
@@ -45,13 +53,23 @@ export class ResultsPage extends HTMLElement {
                 ),
                 hs('div.more-info.tile',
                     hs('div.weather-desc',
-                        weatherJson.weather[0].main
+
                     )
                 ),
                 hs('div.map.tile',
+                    hs('div.wind',
+                        "Wind",
+                        hs('div.wind_head', weatherJson.wind.deg + "°"),
+                        hs('div.wind_speed', weatherJson.wind.speed + "mps")
+                    ),
+                    hs('div.visibility',
+                        "Visibility",
+                        hs('div.visibility', weatherJson.visibility + "m")
+                    )
                 )
             )
-        );
+        )
+        ;
 
     }
 

@@ -45,7 +45,7 @@ export const appController = new (class AppController {
                         }
                     );
                 } else {
-                    spinner.dissolveAndRemove(); // TODO: Error handling
+                    location.href = '/';
                 }
             },
             (e) => {

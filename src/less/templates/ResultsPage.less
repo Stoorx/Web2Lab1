@@ -12,7 +12,7 @@ results-page {
   display: grid;
   grid-template-columns: 1fr 2fr;
   grid-template-rows: auto 1fr 1fr;
-  grid-template-areas: "head head" "temp map" "more more";
+  grid-template-areas: "head head" "temp map" "temp more";
 }
 
 .tile {
@@ -34,6 +34,7 @@ results-page {
 
 .map {
   grid-area: map;
+  display: flex;
 }
 
 .upper-menu {
@@ -125,4 +126,18 @@ results-page {
   background-color: #495057;
   left: 0;
   height: 100%;
+}
+
+.humidity, .pressure {
+  font-family: Helvetica, sans-serif;
+}
+
+.par_val {
+  font-size: 64px;
+}
+
+.wind, .visibility {
+  font-family: Helvetica, sans-serif;
+  font-size: 36px;
+  flex-grow: 1;
 }
