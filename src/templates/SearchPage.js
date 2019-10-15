@@ -4,7 +4,7 @@ import {BlowupTypewriter} from "./BlowupTypewriter.js";
 import cities from 'cities.json';
 
 export class SearchPage extends HTMLElement {
-    constructor() {
+    constructor(err) {
         if (!customElements.get('search-page'))
             customElements.define('search-page', SearchPage);
 
@@ -16,7 +16,22 @@ export class SearchPage extends HTMLElement {
             this.plane = hs('div.search-page-first-plane',
                 this.content = hs('div.search-page-content',
                     hs('a.logo', {href: '/index.html'}, 'Cloudy'),
-                    this.controls = hs('div.controls-encapsulation',
+                    this.controls = hs('form.controls-encapsulation',
+                        {
+                            onsubmit: (e) => {
+                                if (this.cityName.value !== "") {
+                                    appController.processSearch(this.cityName.value);
+                                } else {
+                                    this.controls.classList.add('wrong');
+                                    this.errorBanner.classList.add('active');
+                                    setTimeout(() => {
+                                        this.controls.classList.remove('wrong');
+                                        this.errorBanner.classList.remove('active');
+                                    }, 3000);
+                                }
+                                e.preventDefault();
+                            }
+                        },
                         this.cityName = hs('input.cityName', {
                             type: 'text',
                             placeholder: "Type a city name",
@@ -26,21 +41,25 @@ export class SearchPage extends HTMLElement {
                                 }
                             }
                         }),
-                        this.submitButton = hs('button.submit', {
-                            onclick: () => {
-                                if (this.cityName.value.match(/^[^+*/=_&?^:;'"|\\%$#@!\[\]{}`~.,<>№\s0-9]+$/i)) {
-                                    appController.processSearch(this.cityName.value);
-                                } else {
-                                    this.controls.classList.add('wrong');
-                                    setTimeout(() => this.controls.classList.remove('wrong'), 3000);
-                                }
-                            }
-                        }, "Go")
-                    )
+                        this.submitButton = hs('input.submit', {type: "submit", value: "Go"}),
+                    ),
+                    this.errorBanner = hs('div.error-banner',
+                        'City not found')
                 )
             )
         );
 
+        if (err !== undefined) {
+            this.cityName.value = err.city;
+            this.errorBanner.innerText = err.cause;
+
+            this.controls.classList.add('wrong');
+            this.errorBanner.classList.add('active');
+            setTimeout(() => {
+                this.controls.classList.remove('wrong');
+                this.errorBanner.classList.remove('active');
+            }, 5000);
+        }
         this.typewriterSpawnInterval = setInterval(() => {
             let city = cities[(Math.random() * cities.length) | 0];
             this.typeWriter.appendChild(new BlowupTypewriter(city.name, {

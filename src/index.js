@@ -18,9 +18,7 @@ export const appController = new (class AppController {
         const searchArgs = queryString.parse(location.search);
 
         if (searchArgs.text !== undefined) {
-            if (searchArgs.text.match(/^[^+*/=_&?^:;'"|\\%$#@!\[\]{}`~.,<>№\s0-9]+$/i))
-                this.processSearch(searchArgs.text);
-            else location.href = './';
+            this.processSearch(searchArgs.text);
         } else {
             this._mainView.appendChild(this.currentPage = new SearchPage());
         }
@@ -45,7 +43,9 @@ export const appController = new (class AppController {
                         }
                     );
                 } else {
-                    location.href = '/';
+                    this.currentPage.remove();
+                    this.currentPage = new SearchPage({city: city, cause: "City not found"});
+                    this._mainView.appendChild(this.currentPage);
                 }
             },
             (e) => {
