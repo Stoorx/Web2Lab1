@@ -34,12 +34,7 @@ export class SearchPage extends HTMLElement {
                         },
                         this.cityName = hs('input.cityName', {
                             type: 'text',
-                            placeholder: "Type a city name",
-                            onkeyup: (event) => {
-                                if (event.key === "Enter") {
-                                    this.submitButton.click();
-                                }
-                            }
+                            placeholder: "Type a city name"
                         }),
                         this.submitButton = hs('input.submit', {type: "submit", value: "Go"}),
                     ),

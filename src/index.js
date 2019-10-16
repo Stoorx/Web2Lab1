@@ -40,6 +40,7 @@ export const appController = new (class AppController {
                             const resPage = new ResultsPage(json);
                             this.currentPage.dissolveAndRemove();
                             this._mainView.appendChild(resPage);
+                            this.currentPage = resPage;
                         }
                     );
                 } else {
