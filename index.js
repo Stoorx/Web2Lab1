@@ -20,12 +20,17 @@ const compileErrorTemplate = (errorMsg) => {
 
 const onSubmitHandler = async (e) => {
     e.preventDefault();
+    await processQuery();
+};
+
+const processQuery = async () => {
     const city = document.getElementById("search-txt").value;
     const weatherJson = await weatherApiByCity(city);
     const view = document.getElementById('mainView');
     view.innerText = '';
 
     if (weatherJson.status === 'ok') {
+        console.log(weatherJson);
         view.appendChild(compileResultTemplate(weatherJson.response));
     } else {
         view.appendChild(compileErrorTemplate(selectErrorMessage(weatherJson.response)));
@@ -53,32 +58,22 @@ const weatherApiByCity = (city) =>
     );
 
 const apiFetch = (searchString) =>
-    fetch(
+    axios.get(
         "https://api.openweathermap.org/data/2.5/weather?" + searchString + "&appid=" + apiKey,
-        {
-            mode: 'cors',
-            method: 'GET'
-        }
     );
 
 const resolveToJson = (weatherPromise) =>
     weatherPromise.then(
-        (response) => {
-            return response;
-        },
-        (e) => {
-            console.log(e);
-        }
-    ).then(
         async (response) => {
-            let json = await response.json().then((json) => {
-                return json;
-            });
-            if (response.ok) {
-                return {status: "ok", response: repackData(json)}
+            console.log(response);
+            if (response.statusText === 'OK') {
+                return {status: "ok", response: repackData(response.data)}
             } else {
-                return {status: "fail", response: json}
+                return {status: "fail", response: response.data}
             }
+        }
+    ).catch(
+        (e) => {
         }
     );
 

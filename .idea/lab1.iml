@@ -12,5 +12,9 @@
     <orderEntry type="library" name="mustache" level="application" />
     <orderEntry type="library" name="less" level="application" />
     <orderEntry type="library" name="handlebars" level="application" />
+    <orderEntry type="library" name="mocha" level="application" />
+    <orderEntry type="library" name="chai" level="application" />
+    <orderEntry type="library" name="sinon" level="application" />
+    <orderEntry type="library" name="axios" level="application" />
   </component>
 </module>
