@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WeatherLab</title>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <link href="style.less" type="text/css" rel="stylesheet/less">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.3/less.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.min.js"></script>
+    <script src="index.js"></script>
+</head>
+<body>
+
+<div class="background"></div>
+<form onsubmit="onSubmitHandler(event)">
+    <input type="text" placeholder="Enter City Name" id="search-txt">
+    <button id="search-btn">Поиск</button>
+</form>
+<div class="main-view" id="mainView"></div>
+
+<!-- Result page template -->
+<script id="template-result" type="text/x-handlebars-template">
+    <div class="dataLine">City Name: {{name}}</div>
+    <div class="dataLine">Weather: {{clouds}}</div>
+    <div class="dataLine">Temperature: {{temp}}°C</div>
+    <div class="dataLine">Humidity: {{humidity}}%</div>
+    <div class="dataLine">Wind: {{wind.speed}} m/s</div>
+</script>
+
+<!--Error page template-->
+<script id="template-error" type="text/x-handlebars-template">
+    <div class="errorTile">{{error}}</div>
+</script>
+</body>
+</html>

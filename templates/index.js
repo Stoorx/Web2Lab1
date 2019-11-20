@@ -1,30 +1,21 @@
-import {WaitPage} from "./templates/WaitPage";
-import {SearchPage} from "./templates/SearchPage";
-import {ResultsPage} from "./templates/ResultsPage";
+function require(path) {
+    let e = document.createElement('script');
+    e.src = path;
+    document.body.appendChild(e);
+}
 
-const queryString = require('query-string');
 
-require('./less/main.less');
-//require('./img/background.jpg');
+//require("./templates/WaitPage.js");
+require("./SearchPageN.js");
+//require("./templates/ResultsPage.js");
 
 const apikey = 'f816129477a56b6c0840aa37d1e18cdc';
 
-export const appController = new (class AppController {
-    constructor() {
-        this._mainView = document.getElementById('mainView');
-        // const spinner = new WaitPage();
-        // this._mainView.appendChild(spinner);
-        // return;
-        const searchArgs = queryString.parse(location.search);
+function AppController() {
+    this._mainView = document.getElementById('mainView');
+    this._mainView.appendChild(this.currentPage = new SearchPage().root);
 
-        if (searchArgs.text !== undefined) {
-            this.processSearch(searchArgs.text);
-        } else {
-            this._mainView.appendChild(this.currentPage = new SearchPage());
-        }
-    }
-
-    processSearch(city) {
+    this.processSearch = function (city) {
         if (this.currentPage !== undefined)
             this.currentPage.dissolveAndRemove();
         const spinner = new WaitPage();
@@ -54,4 +45,6 @@ export const appController = new (class AppController {
             }
         );
     }
-})();
+}
+
+var appController = new AppController();

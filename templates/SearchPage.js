@@ -1,7 +1,5 @@
 const hs = require('hyperscript');
-import {appController} from './../index.js';
-import {BlowupTypewriter} from "./BlowupTypewriter.js";
-import cities from 'cities.json';
+
 
 export class SearchPage extends HTMLElement {
     constructor(err) {
@@ -55,13 +53,6 @@ export class SearchPage extends HTMLElement {
                 this.errorBanner.classList.remove('active');
             }, 5000);
         }
-        this.typewriterSpawnInterval = setInterval(() => {
-            let city = cities[(Math.random() * cities.length) | 0];
-            this.typeWriter.appendChild(new BlowupTypewriter(city.name, {
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight
-            }));
-        }, 512);
     }
 
     dissolveAndRemove() {
@@ -71,7 +62,6 @@ export class SearchPage extends HTMLElement {
     }
 
     remove() {
-        clearInterval(this.typewriterSpawnInterval);
         this.parentElement.removeChild(this);
     }
 }

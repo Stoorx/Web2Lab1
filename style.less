@@ -1,0 +1,27 @@
+/* Переменные */
+@body-bg-color: #83b692; // green
+@text-color: grey; // white
+@button-bg-color: green; // pink
+/* LESS CSS */
+html {
+  background: @body-bg-color;
+  color: @text-color;
+  text-align: center;
+}
+
+#result {
+  font-family: fantasy;
+  color: @text-color;
+  font-size: xx-large;
+}
+
+button {
+  background-color: white;
+  border: 1px solid @button-bg-color;
+  border-radius: 25px;
+  font-style: oblique;
+}
+
+button:hover {
+  background-color: desaturate(@button-bg-color, 50%);
+}
