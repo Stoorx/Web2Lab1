@@ -52,21 +52,83 @@
         });
     });
 
-    describe("sd", () => {
-        it("123", async () => {
-            document.getElementById('search-txt').value = "1234";
+    describe("Запрос к серверу", () => {
+        it("Пустой запрос", async () => {
+            document.getElementById('search-txt').value = "";
             const server = sinon.fakeServer.create();
             return server.autoRespond = true;
-            const searchLink = "https://api.openweathermap.org/data/2.5/weather?q=1234&appid=2e31b114bb5ba8f29f05fb811e28d76c";
+            const searchLink = "https://api.openweathermap.org/data/2.5/weather?q=&appid=2e31b114bb5ba8f29f05fb811e28d76c";
             server.respond("GET", searchLink, [
-                404,
+                400,
                 {"Content-Type": "application/json"},
                 '[{ "id": 1, "name": "Gwen" },  { "id": 2, "name": "John" }]'
             ]);
             await processQuery();
             chAssert.equal(document.getElementById('mainView').innerText, 'Задан пустой запрос');
+        });
+
+        it("Город не найден", async () => {
+            document.getElementById('search-txt').value = "фшукрм";
+            const server = sinon.fakeServer.create();
+            return server.autoRespond = true;
+            const searchLink = "https://api.openweathermap.org/data/2.5/weather?q=фшукрм&appid=2e31b114bb5ba8f29f05fb811e28d76c";
+            server.respond("GET", searchLink, [
+                404,
+                {"Content-Type": "application/json"},
+                example()
+            ]);
+            await processQuery();
+            chAssert.equal(document.getElementById('mainView').innerText, 'Город не найден');
+        });
+
+        it("London", async () => {
+            document.getElementById('search-txt').value = "Moscow";
+            const server = sinon.fakeServer.create();
+            return server.autoRespond = true;
+            const searchLink = "https://api.openweathermap.org/data/2.5/weather?q=Moscow&appid=2e31b114bb5ba8f29f05fb811e28d76c";
+            server.respond("GET", searchLink, [
+                200,
+                {"Content-Type": "application/json"},
+                example()
+            ]);
+            await processQuery();
+            chAssert.equal(document.getElementById('mainView').innerText, true);
         })
     });
+
+    it('repackData test', () => {
+        const result = repackData(example());
+        const correct = correctRepacked();
+
+        chAssert.equal(JSON.stringify(result), JSON.stringify(correct));
+    });
+
+    describe('selectErrorMessage test', () => {
+        it("400", () => {
+            chAssert.equal(selectErrorMessage({cod: "400"}), "Задан пустой запрос");
+        });
+        it("401", () => {
+            chAssert.equal(selectErrorMessage({cod: "401"}), "Неверный токен приложения");
+        });
+        it("404", () => {
+            chAssert.equal(selectErrorMessage({cod: "404"}), "Город не найден");
+        });
+        it("418", () => {
+            chAssert.equal(selectErrorMessage({cod: "418"}), "Неизвестная ошибка");
+        });
+
+    });
+
+    it('compileResultTemplate test', () => {
+        const compiled = compileResultTemplate(repackData(example()));
+        chAssert.notEqual(compiled, null);
+    });
+
+    it('compileErrorTemplate test', () => {
+        const compiled = compileErrorTemplate("Error");
+        chAssert.notEqual(compiled, null);
+    });
+
     mocha.run();
 
 </script>
